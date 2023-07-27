@@ -3,7 +3,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
-export const PowerForm = (props: any) => {
+export interface PowerFormProps {
+  archetype: string | undefined;
+  primaryList: string[];
+  secondaryList: string[];
+  epicList: string[];
+  handleArchetypeChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  handlePrimaryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleSecondaryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleEpicChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+export const PowerForm = (props: PowerFormProps) => {
     return (
       <Container className="mt-3 bg-dark text-light p-3">
         <Row>

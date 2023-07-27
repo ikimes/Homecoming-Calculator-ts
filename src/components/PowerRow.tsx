@@ -7,7 +7,20 @@ import getTotalPowerDamage from '../utility/getTotalPowerDamage';
 import { getCritStrikesPPM, isInCritStrikesWindow } from '../utility/critStrikes';
 import Power from '../constants/power';
 
-const getProcDamage = (power: any) => {
+export interface PowerRowProps {
+  row: number;
+  category: string; // enum this
+  archetype: string;
+  power: Power;
+  primaryPowersetData: Power[];
+  secondaryPowersetData: Power[];
+  epicPowersetData: Power[];
+  chainPowers: Power[];
+  setChainPowers: (chainPowers: Power[]) => void;
+  isCritStrikes: boolean
+}
+
+const getProcDamage = (power: Power) => {
   let damage = 0;
   if(!power.isAoE) {
     const standardChance = Math.min(0.90, ((power.rechargeTime / (1 + power.rechargeEnhancement) + power.castTime) * 3.5 / 60));
@@ -23,20 +36,20 @@ const getProcDamage = (power: any) => {
   return damage;
 }
 
-export const PowerRow = (props: any) => {
-  const [displayScrapperCriticalDamage, setDisplayScrapperCriticalDamage] = useState(true);
-  const [displayScrappersStrikeATO, setDisplayScrappersStrikeATO] = useState(false);
-  const [displayStealthCrit, setDisplayStealthCrit] = useState(false);
-  const [targetsHit, setTargetsHit] = useState(1);
-  const [standardProcs, setStandardProcs] = useState(0);
-  const [purpleProcs, setPurpleProcs] = useState(0);
-  const [damageEnhancement, setDamageEnhancement] = useState(0);
-  const [rechargeEnhancement, setRechargeEnhancement] = useState(0);
-  const [powerIsInCritStrikesWindow, setPowerIsInCritStrikesWindow] = useState(false);
-  const [comboLevel, setComboLevel] = useState(0);
-  const [currentPowerName, setCurrentPowerName] = useState(props.chainPowers[props.row].name);
-  const [numberOfTeammates, setNumberOfTeammtes] = useState(0);
-  const [assassinsFocusStacks, setAssassinsFocusStacks] = useState(0);
+export const PowerRow = (props: PowerRowProps) => {
+  const [displayScrapperCriticalDamage, setDisplayScrapperCriticalDamage] = useState<boolean>(true);
+  const [displayScrappersStrikeATO, setDisplayScrappersStrikeATO] = useState<boolean>(false);
+  const [displayStealthCrit, setDisplayStealthCrit] = useState<boolean>(false);
+  const [targetsHit, setTargetsHit] = useState<number>(1);
+  const [standardProcs, setStandardProcs] = useState<number>(0);
+  const [purpleProcs, setPurpleProcs] = useState<number>(0);
+  const [damageEnhancement, setDamageEnhancement] = useState<number>(0);
+  const [rechargeEnhancement, setRechargeEnhancement] = useState<number>(0);
+  const [powerIsInCritStrikesWindow, setPowerIsInCritStrikesWindow] = useState<boolean>(false);
+  const [comboLevel, setComboLevel] = useState<number>(0);
+  const [currentPowerName, setCurrentPowerName] = useState<string>(props.chainPowers[props.row].name);
+  const [numberOfTeammates, setNumberOfTeammtes] = useState<number>(0);
+  const [assassinsFocusStacks, setAssassinsFocusStacks] = useState<number>(0);
  
   useEffect(() => {
     let newChainPowers = [...props.chainPowers];
@@ -130,6 +143,7 @@ export const PowerRow = (props: any) => {
       maxTargetsHit: selectedPower.max_targets_hit,
       targetsHit: selectedPower.attack_types.includes('Area') || selectedPower.arc > 0 ? currentChainPowers[props.row].targetsHit : 1,
       assassinsFocusStacks: 0,
+      numberOfTeammates: 0, // what number should this be?
     }
 
     currentChainPowers[props.row] = newChainPower;
@@ -168,7 +182,7 @@ export const PowerRow = (props: any) => {
 
   const handleComboLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newPowers = [...props.chainPowers];
-    newPowers[props.row].comboLevel = e.target.value;
+    newPowers[props.row].comboLevel = Number(e.target.value);
     props.setChainPowers([...newPowers]);
     setComboLevel(Number(e.target.value));
   }
@@ -203,14 +217,14 @@ export const PowerRow = (props: any) => {
 
   const handleNumberOfTeammtesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newPowers = [...props.chainPowers];
-    newPowers[props.row].numberOfTeammates = e.target.value;
+    newPowers[props.row].numberOfTeammates = Number(e.target.value);
     props.setChainPowers([...newPowers]);
     setNumberOfTeammtes(Number(e.target.value));
   }
 
   const handleAssassinsFocusStacksChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newPowers = [...props.chainPowers];
-    newPowers[props.row].assassinsFocusStacks = e.target.value;
+    newPowers[props.row].assassinsFocusStacks = Number(e.target.value);
     props.setChainPowers([...newPowers]);
     setAssassinsFocusStacks(Number(e.target.value));
   }

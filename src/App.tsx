@@ -11,13 +11,13 @@ import Power from './constants/power';
 
 function App() {
   const [archetype, setArchetype] = useState<keyof typeof PrimaryData>();
-  const [primaryPowerData, setPrimaryPowerData] = useState<Array<unknown>>([]);
-  const [secondaryPowerData, setSecondaryPowerData] = useState<Array<unknown>>([]);
-  const [epicPowerData, setEpicPowerData] = useState<Array<unknown>>([]);
-  const [primaryList, setPrimaryList] = useState<Array<string>>([]);
-  const [secondaryList, setSecondaryList] = useState<Array<unknown>>([]);
-  const [epicList, setEpicList] = useState<Array<unknown>>([]);
-  const [chainPowers, setChainPowers] = useState<Array<Power>>([]);
+  const [primaryPowerData, setPrimaryPowerData] = useState<Power[]>([]);
+  const [secondaryPowerData, setSecondaryPowerData] = useState<Power[]>([]);
+  const [epicPowerData, setEpicPowerData] = useState<Power[]>([]);
+  const [primaryList, setPrimaryList] = useState<string[]>([]);
+  const [secondaryList, setSecondaryList] = useState<string[]>([]);
+  const [epicList, setEpicList] = useState<string[]>([]);
+  const [chainPowers, setChainPowers] = useState<Power[]>([]);
   const [totalDamage, setTotalDamage] = useState<number>(0);
   const [totalCastTime, setTotalCastTime] = useState<number>(0);
   const [rechargeValidation, setRechargeValidation] = useState<string>();
@@ -29,8 +29,8 @@ function App() {
     setEpicList([]);
     let selectedArchetype: keyof typeof PrimaryData = e.target.value as keyof typeof PrimaryData;
     setArchetype(selectedArchetype);
-    let powerNames: Array<string>;
-    let powersetDisplayNames: Array<string>;
+    let powerNames: string[];
+    let powersetDisplayNames: string[];
     fetch(`power_data/${PrimaryData[selectedArchetype]}/index.json`)
       .then((response) => response.json())
       .then((data) => {
@@ -44,7 +44,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
           powerNames = data.power_names.map((name: string) => name.split('.')[2])
-          let newPowerData: Array<unknown> = [];
+          let newPowerData: Power[] = [];
           for(var i = 0; i < powerNames.length; i++) {
             fetch(`power_data/${PrimaryData[selectedArchetype]}/${powersetDisplayNames[0].toLowerCase().replace(/ +/g, '_')}/${powerNames[i].toLowerCase().replace(/ +/g, '_')}.json`)
               .then((response) => response.json())
@@ -67,7 +67,7 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
             powerNames = data.power_names.map((name: string) => name.split('.')[2]);
-            let newPowerData: Array<unknown> = [];
+            let newPowerData: Power[] = [];
             for(var i = 0; i < powerNames.length; i++) {
               if(powerNames[i] === "Touch of the Beyond") {
                 fetch(`power_data/${SecondaryData[selectedArchetype]}/${powersetDisplayNames[0].toLowerCase().replace(/ +/g, '_')}/touch_of_fear.json`)
@@ -95,7 +95,7 @@ function App() {
           .then((response) => response.json())
           .then((data) => {
             powerNames = data.power_names.map((name: string) => name.split('.')[2]);
-            let newPowerData: Array<unknown> = [];
+            let newPowerData: Power[] = [];
             for(var i = 0; i < powerNames.length; i++) {
               fetch(`power_data/${EpicData[selectedArchetype]}/${powersetDisplayNames[0].toLowerCase().replace(/ +/g, '_')}/${powerNames[i].toLowerCase().replace(/ +/g, '_')}.json`)
                 .then((response) => response.json())
@@ -129,7 +129,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         powerNames = data.power_names.map((name: string) => name.split('.')[2])
-        let newPowerData: Array<unknown> = [];
+        let newPowerData: Power[] = [];
         for(var i = 0; i < powerNames.length; i++) {
           fetch(`power_data/${PrimaryData[archetype]}/${powerSetName.toLowerCase().replace(/ +/g, '_')}/${powerNames[i].toLowerCase().replace(/ +/g, '_')}.json`)
             .then((response) => response.json())
@@ -165,7 +165,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         powerNames = data.power_names.map((name: string) => name.split('.')[2])
-        let newPowerData: Array<unknown> = [];
+        let newPowerData: Power[] = [];
         for(var i = 0; i < powerNames.length; i++) {
           fetch(`power_data/${SecondaryData[archetype]}/${powerSetName.toLowerCase().replace(/ +/g, '_')}/${powerNames[i].toLowerCase().replace(/ +/g, '_')}.json`)
             .then((response) => response.json())
@@ -186,7 +186,7 @@ function App() {
     .then((response) => response.json())
     .then((data) => {
       powerNames = data.power_names.map((name: string) => name.split('.')[2])
-      let newPowerData: Array<unknown> = [];
+      let newPowerData: Power[] = [];
       for(var i = 0; i < powerNames.length; i++) {
         fetch(`power_data/${EpicData[archetype]}/${powerSetName.toLowerCase().replace(/ +/g, '_')}/${powerNames[i].toLowerCase().replace(/ +/g, '_')}.json`)
           .then((response) => response.json())

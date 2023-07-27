@@ -6,8 +6,17 @@ import { PowerRow } from './PowerRow';
 import { isInCritStrikesWindow } from '../utility/critStrikes';
 import Power from '../constants/power';
 
-export const PowerTable = (props: any) => {
-  const [numberOfPowers, setNumberOfPowers] = useState(0);
+export interface PowerTableProps {
+  archetype: string | undefined;
+  chainPowers: Power[];
+  setChainPowers: (chainPowers: Power[]) => void;
+  primaryPowersetData: Power[];
+  secondaryPowersetData: Power[];
+  epicPowersetData: Power[];
+} // There seems to be a composed Power object and then a raw Power object. Maybe have a chainPower type and then a rawPower type.
+
+export const PowerTable = (props: PowerTableProps) => {
+  const [numberOfPowers, setNumberOfPowers] = useState<number>(0);
 
   useEffect(() => {
     setNumberOfPowers(props.chainPowers.length)
