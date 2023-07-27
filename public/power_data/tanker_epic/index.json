@@ -1,0 +1,19 @@
+{
+  "name": "Tanker_Epic",
+  "display_name": "Epic",
+  "archetypes": [
+    "tanker"
+  ],
+  "display_help": null,
+  "display_short_help": null,
+  "powerset_display_names": [
+    "Arctic Mastery",
+    "Earth Mastery",
+    "Energy Mastery",
+    "Pyre Mastery",
+    "Leviathan Mastery",
+    "Soul Mastery",
+    "Mace Mastery",
+    "Mu Mastery"
+  ]
+}

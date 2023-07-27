@@ -1,0 +1,20 @@
+{
+  "name": "Blaster_Epic",
+  "display_name": "Epic",
+  "archetypes": [
+    "blaster"
+  ],
+  "display_help": null,
+  "display_short_help": null,
+  "powerset_display_names": [
+    "Flame Mastery",
+    "Force Mastery",
+    "Cold Mastery",
+    "Electrical Mastery",
+    "Munitions Mastery",
+    "Leviathan Mastery",
+    "Soul Mastery",
+    "Mace Mastery",
+    "Mu Mastery"
+  ]
+}
