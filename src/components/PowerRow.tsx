@@ -263,7 +263,6 @@ export const PowerRow = (props: PowerRowProps) => {
                         backgroundRepeat: 'no-repeat'
                       }}
                     >
-                      <img src={`power_icons/${power.icon}`}/>
                       {power.name}
                     </option>
                   )
