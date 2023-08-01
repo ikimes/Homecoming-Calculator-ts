@@ -1,5 +1,6 @@
 export default interface Power {
   name: string;
+  icon: string;
   full_name?: string; // this shouldn't be here
   display_name?: string; // this shouldn't be here
   isAoE: boolean;

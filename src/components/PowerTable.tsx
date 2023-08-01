@@ -34,6 +34,7 @@ export const PowerTable = (props: PowerTableProps) => {
     
     const newChainPower: Power = {
       name: props.primaryPowersetData[0].name,
+      icon: props.primaryPowersetData[0].icon,
       displayName: props.primaryPowersetData[0].display_name,
       category: "primary",
       damageEnhancement: 0,
@@ -74,6 +75,7 @@ export const PowerTable = (props: PowerTableProps) => {
 
     const newChainPower = {
       name: props.secondaryPowersetData[0].name,
+      icon: props.secondaryPowersetData[0].icon,
       displayName: props.secondaryPowersetData[0].display_name,
       category: "secondary",
       damageEnhancement: 0,
@@ -113,6 +115,7 @@ export const PowerTable = (props: PowerTableProps) => {
 
     const newChainPower = {
       name: props.primaryPowersetData[0].name,
+      icon: props.primaryPowersetData[0].icon,
       displayName: props.primaryPowersetData[0].display_name,
       category: "primary",
       damageEnhancement: 0,
@@ -152,6 +155,7 @@ export const PowerTable = (props: PowerTableProps) => {
 
     const newChainPower = {
       name: props.epicPowersetData[0].name,
+      icon: props.epicPowersetData[0].icon,
       displayName: props.epicPowersetData[0].display_name,
       category: "epic",
       damageEnhancement: 0,

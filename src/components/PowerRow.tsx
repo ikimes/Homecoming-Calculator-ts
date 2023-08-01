@@ -116,9 +116,9 @@ export const PowerRow = (props: PowerRowProps) => {
     } else {
       castTimeBeforeEffect = selectedPower.custom_fx[0].fx.frames_before_hit / 30
     }
-    
     const newChainPower = {
       name: selectedPower.name,
+      icon: selectedPower.icon,
       displayName: selectedPower.display_name,
       category: currentChainPowers[props.row].category,
       damageEnhancement: 0,
@@ -244,6 +244,7 @@ export const PowerRow = (props: PowerRowProps) => {
       <Row>
         <Col>
           <Form.Group className="py-3">
+            <img src={`power_icons/${props.chainPowers[0].icon}`}/>
             <Form.Label>Power</Form.Label>
             <Form.Select
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handlePowerChange(e)}
@@ -255,8 +256,15 @@ export const PowerRow = (props: PowerRowProps) => {
                     <option
                       key={power.full_name}
                       value={JSON.stringify(power)}
+                      style={{
+                        backgroundImage: `url(power_icons/${power.icon})`,
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat'
+                      }}
                     >
-                      {power.display_name}
+                      <img src={`power_icons/${power.icon}`}/>
+                      {power.name}
                     </option>
                   )
                 })
