@@ -1,3 +1,5 @@
+import Power
+ from "../constants/power";
 export const getCritStrikesPPM = (chainPowers: any, row: any) => {
   let critStrikesIndex;
 
@@ -24,7 +26,7 @@ export const getCritStrikesPPM = (chainPowers: any, row: any) => {
   }
 }
 
-export const isInCritStrikesWindow = (chainPowers, row) => {
+export const isInCritStrikesWindow = (chainPowers: Power[], row: any) => {
   let critStrikesIndexes = [];
   for(var i = 0; i < chainPowers.length; i++) {
     if(chainPowers[i].isCritStrikes) {

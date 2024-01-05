@@ -17,7 +17,7 @@ function getModifiedMeleeDamage({
 }: any) {
   let powerDamage = 0;
   let modifiedDamage = 0;
-  let duration = Number(powerTemplates.duration.split(' ')[0]);
+  let duration = Number(powerTemplates.duration.split(' ')[0]) ?? 0;
   let application_period = powerTemplates.application_period;
   let CRIT_STRIKES_WINDOW_BONUS = CRIT_STRIKES_BONUS * critStrikesChance;
 
@@ -694,7 +694,7 @@ export default function getTotalPowerDamage({
               }
             }
             
-            if(duration > 0) {
+            if(duration && duration > 0) {
               powerDamage += power.effects[0].child_effects[0].templates[0].scale * ArchetypeModifiers.Melee_Damage_Scrapper * Math.ceil(duration / application_period)
             } else {
               powerDamage += power.effects[0].child_effects[0].templates[0].scale * ArchetypeModifiers.Melee_Damage_Scrapper

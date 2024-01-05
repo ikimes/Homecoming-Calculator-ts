@@ -204,7 +204,7 @@ function App() {
     let totalCastTime = 0;
     for(var i = 0; i < chainPowers.length; i++) {
       totalDamage += chainPowers[i].damage;
-      totalCastTime += chainPowers[i].castTime;
+      totalCastTime += Number(chainPowers[i].castTime);
     }
     setTotalDamage(totalDamage);
     setTotalCastTime(totalCastTime);
@@ -217,7 +217,7 @@ function App() {
     chainPowers.forEach(power => {
       rechargeDurations.push({
         name: power.displayName,
-        rechargeTimeRemaining: power.rechargeTime / (1 + power.rechargeEnhancement),
+        rechargeTimeRemaining: Number(power.rechargeTime) / (1 + power.rechargeEnhancement),
       })
     })
 
@@ -260,9 +260,11 @@ function App() {
           archetype={archetype}
           chainPowers={chainPowers}
           setChainPowers={setChainPowers}
-          primaryPowersetData={primaryPowerData}
-          secondaryPowersetData={secondaryPowerData}
-          epicPowersetData={epicPowerData}
+          powersetData={{
+            primary: primaryPowerData,
+            secondary: secondaryPowerData,
+            epic: epicPowerData
+          }}
         />
         <div className="container p-0">
           <Button

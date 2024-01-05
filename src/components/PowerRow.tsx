@@ -6,15 +6,16 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import getTotalPowerDamage from '../utility/getTotalPowerDamage';
 import { getCritStrikesPPM, isInCritStrikesWindow } from '../utility/critStrikes';
 import Power from '../constants/power';
+import type { PowersetDataKeys } from '../constants/power';
 
 export interface PowerRowProps {
   row: number;
-  category: string; // enum this
+  category: PowersetDataKeys; // enum this
   archetype: string;
   power: Power;
-  primaryPowersetData: Power[];
-  secondaryPowersetData: Power[];
-  epicPowersetData: Power[];
+  powersetData: {
+    [key in PowersetDataKeys]: Power[]
+  };
   chainPowers: Power[];
   setChainPowers: (chainPowers: Power[]) => void;
   isCritStrikes: boolean
@@ -23,7 +24,7 @@ export interface PowerRowProps {
 const getProcDamage = (power: Power) => {
   let damage = 0;
   if(!power.isAoE) {
-    const standardChance = Math.min(0.90, ((power.rechargeTime / (1 + power.rechargeEnhancement) + power.castTime) * 3.5 / 60));
+    const standardChance: number = Math.min(0.90, ((power.rechargeTime / (1 + power.rechargeEnhancement) + power.castTime) * 3.5 / 60));
     const purpleChance = Math.min(0.90, ((power.rechargeTime / (1 + power.rechargeEnhancement) + power.castTime) * 4.5 / 60));
     damage += (((power.standardProcs * (71.75 * standardChance)) + (power.purpleProcs * (107.1 * purpleChance))));
   } else {
@@ -58,11 +59,11 @@ export const PowerRow = (props: PowerRowProps) => {
 
     for(var i = 0; i < newChainPowers.length; i++) {
       if(newChainPowers[i].category === "primary") {
-        powerInfo = props.primaryPowersetData.find((power: Power) => power.name === newChainPowers[i].name);
+        powerInfo = props.powersetData.primary.find((power: Power) => power.name === newChainPowers[i].name);
       } else if (newChainPowers[i].category === "secondary") {
-        powerInfo = props.secondaryPowersetData.find((power: Power) => power.name === newChainPowers[i].name);
+        powerInfo = props.powersetData.secondary.find((power: Power) => power.name === newChainPowers[i].name);
       } else if (newChainPowers[i].category === "epic") {
-        powerInfo = props.epicPowersetData.find((power: Power) => power.name === newChainPowers[i].name);
+        powerInfo = props.powersetData.epic.find((power: Power) => power.name === newChainPowers[i].name);
       }
 
       powerDamage = getTotalPowerDamage({
@@ -116,9 +117,10 @@ export const PowerRow = (props: PowerRowProps) => {
     } else {
       castTimeBeforeEffect = selectedPower.custom_fx[0].fx.frames_before_hit / 30
     }
-    const newChainPower = {
+    const newChainPower: Power = {
       name: selectedPower.name,
       icon: selectedPower.icon,
+      custom_fx: 'null',
       displayName: selectedPower.display_name,
       category: currentChainPowers[props.row].category,
       damageEnhancement: 0,
@@ -248,10 +250,10 @@ export const PowerRow = (props: PowerRowProps) => {
             <Form.Label>Power</Form.Label>
             <Form.Select
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handlePowerChange(e)}
-              value={JSON.stringify(props[`${props.chainPowers[props.row].category}PowersetData`].find((power: Power) => power.name === props.chainPowers[props.row].name))}
+              value={JSON.stringify(props.powersetData[`${props.chainPowers[props.row].category}`].find((power: Power) => power.name === props.chainPowers[props.row].name))}
             >
               {
-                props.category === "primary" && props.primaryPowersetData.map((power: Power) => {
+                props.category === "primary" && props.powersetData.primary.map((power: Power) => {
                   return (
                     <option
                       key={power.full_name}
@@ -269,7 +271,7 @@ export const PowerRow = (props: PowerRowProps) => {
                 })
               }
               {
-                props.category === "secondary" && props.secondaryPowersetData.map((power: Power) => {
+                props.category === "secondary" && props.powersetData.secondary.map((power: Power) => {
                   return (
                     <option
                       key={power.full_name}
@@ -281,7 +283,7 @@ export const PowerRow = (props: PowerRowProps) => {
                 })
               }
               {
-                props.category === "epic" && props.epicPowersetData.map((power: Power) => {
+                props.category === "epic" && props.powersetData.epic.map((power: Power) => {
                   return (
                     <option
                       key={power.full_name}
@@ -445,7 +447,7 @@ export const PowerRow = (props: PowerRowProps) => {
                   onChange={e => handleDisplayStealthCrit(e)}
                 />
                 {
-                  props.primaryPowersetData[0].full_name.split('.')[1] === "Martial_Arts" && (
+                  (props.powersetData.primary[0].full_name ?? '').split('.')[1] === "Martial_Arts" && (
                     <Form.Check
                       type="checkbox"
                       defaultChecked={true}
